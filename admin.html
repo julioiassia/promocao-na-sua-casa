@@ -62,7 +62,7 @@
   </div>
 </div>
 <script>
-const API='http://localhost:3001';
+const API='https://promocao-na-sua-casa.onrender.com';
 let fotoFile=null,pdfFile=null,abaAtual='foto',produtosIA=[];
 
 function trocarAba(aba,el){abaAtual=aba;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ativo'));el.classList.add('ativo');document.getElementById('aba-foto').style.display=aba==='foto'?'block':'none';document.getElementById('aba-pdf').style.display=aba==='pdf'?'block':'none';document.getElementById('btn-analisar').disabled=true;document.getElementById('resultado-ia').style.display='none';}
