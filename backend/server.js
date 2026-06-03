@@ -43,7 +43,7 @@ function parseJSONSeguro(texto){
 }
 
 async function extrairComIA(anthropic,conteudo,tipo){
-  const prompt='Extraia TODOS os produtos com precos deste encarte de supermercado. Para cada produto identifique a categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. Retorne APENAS JSON valido sem texto adicional: {"produtos":[{"nome":"nome completo com quantidade","marca":"marca","preco":0.00,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}';
+  const prompt='Extraia TODOS os produtos com precos deste encarte de supermercado. Para cada produto identifique a categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. Retorne APENAS JSON valido sem texto adicional: {"produtos":[{"nome":"nome completo com quantidade e marca","nome_generico":"ap0,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}';
   let messages;
   if(tipo==='imagem'){
     messages=[{role:'user',content:[{type:'image',source:{type:'base64',media_type:conteudo.mimeType,data:conteudo.data}},{type:'text',text:prompt}]}];
