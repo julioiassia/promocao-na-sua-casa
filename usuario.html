@@ -31,8 +31,8 @@ header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20
 .comp-linha1{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
 .comp-nome{font-size:13px;font-weight:bold;color:#333;flex:1}
 .comp-preco{font-size:14px;font-weight:bold;color:#555;margin:0 8px}
-.comp-diff-badge{font-size:11px;font-weight:bold;padding:2px 7px;border-radius:10px}
-.comp-linha2{display:flex;align-items:center;gap:8px}
+.comp-diff-badge{font-size:11px;font-weight:bold;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.comp-linha2{display:flex;align-items:center;gap:8px;margin-top:2px}
 .comp-barra-wrap{flex:1;background:#eee;border-radius:4px;height:4px;overflow:hidden}
 .comp-barra{height:100%;border-radius:4px}
 .comp-detalhe{font-size:11px;color:#999}
@@ -44,7 +44,7 @@ header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20
 .modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp 0.25s ease;max-height:85vh;overflow-y:auto}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
-.modal-nome{font-size:18px;font-weight:bold;flex:1;padding-right:12px}
+.modal-nome{font-size:17px;font-weight:bold;flex:1;padding-right:12px}
 .modal-fechar-x{background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;padding:0}
 .modal-preco{font-size:36px;font-weight:bold;color:#1a7f37;margin:8px 0 16px}
 .modal-linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
@@ -72,7 +72,7 @@ header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20
 <div class="modal-overlay" id="modal-overlay" onclick="fecharModalOverlay(event)">
   <div class="modal">
     <div id="modal-conteudo"></div>
-    <button class="btn-rota" id="btn-rota" onclick="abrirMapa()">📍 Ver no mapa</button>
+    <button class="btn-rota" onclick="abrirMapa()">📍 Ver no mapa</button>
     <button class="btn-fechar" onclick="fecharModal()">Fechar</button>
   </div>
 </div>
@@ -100,14 +100,20 @@ const CATEGORIAS=[
 
 function normalizar(t){return(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
 
-function corBarra(pct){if(pct<=15)return'#81c784';if(pct<=35)return'#ffb74d';return'#e57373';}
+function chaveGrupo(p){
+  const gen=normalizar(p.nome_generico||p.nome).replace(/\s+/g,' ').trim();
+  const qtd=p.quantidade?Math.round(p.quantidade*100):'';
+  const uni=normalizar(p.unidade||'');
+  return gen+'|'+qtd+'|'+uni;
+}
 
-function corDiffBg(pct){if(pct<=15)return'background:#e8f5e9;color:#2e7d32';if(pct<=35)return'background:#fff3e0;color:#e65100';return'background:#ffebee;color:#c62828';}
+function corBarra(pct){if(pct<=15)return'#81c784';if(pct<=35)return'#ffb74d';return'#e57373';}
+function corDiffStyle(pct){if(pct<=15)return'background:#e8f5e9;color:#2e7d32';if(pct<=35)return'background:#fff3e0;color:#e65100';return'background:#ffebee;color:#c62828';}
 
 function agruparPorProduto(lista){
   const grupos={};
   lista.forEach(p=>{
-    const chave=normalizar(p.nome_generico||p.nome).replace(/\s+/g,' ').trim();
+    const chave=chaveGrupo(p);
     if(!grupos[chave])grupos[chave]=[];
     grupos[chave].push(p);
   });
@@ -131,18 +137,18 @@ async function carregarPromocoes(){
     filtrar();
     document.getElementById('atualizado').textContent='Atualizado agora · '+todasPromocoes.length+' oferta(s)';
   }catch(e){
-    document.getElementById('lista-promocoes').innerHTML='<div class="empty"><div class="icon">😕</div><p>Erro ao carregar. Verifique a conexão.</p></div>';
+    document.getElementById('lista-promocoes').innerHTML='<div class="empty"><div class="icon">😕</div><p>Erro ao carregar.</p></div>';
   }
 }
 
 function filtrar(){
   const busca=normalizar(document.getElementById('busca').value);
   let lista=todasPromocoes.filter(p=>{
-    const nomeNorm=normalizar(p.nome);
-    const genNorm=normalizar(p.nome_generico||'');
-    const marcaNorm=normalizar(p.marca||'');
-    const catNorm=normalizar(p.categoria||'');
-    const buscaOk=!busca||nomeNorm.includes(busca)||genNorm.includes(busca)||marcaNorm.includes(busca)||catNorm.includes(busca);
+    const buscaOk=!busca||
+      normalizar(p.nome).includes(busca)||
+      normalizar(p.nome_generico||'').includes(busca)||
+      normalizar(p.marca||'').includes(busca)||
+      normalizar(p.categoria||'').includes(busca);
     const catOk=!categoriaAtiva||normalizar(p.categoria||'')==normalizar(categoriaAtiva);
     return buscaOk&&catOk;
   });
@@ -155,7 +161,7 @@ function filtrar(){
     return;
   }
 
-  // Ordena: grupos com comparação primeiro, depois sozinhos
+  // Grupos com comparação primeiro
   const gruposOrdenados=Object.entries(grupos).sort((a,b)=>b[1].length-a[1].length);
 
   el.innerHTML=gruposOrdenados.map(([chave,grupo])=>{
@@ -168,7 +174,7 @@ function filtrar(){
     const outros=ordenado.slice(1);
     const precoBase=melhor.preco_por_unidade||melhor.preco;
     const temPPU=melhor.preco_por_unidade&&melhor.quantidade;
-    const labelPPU=temPPU?`${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
+    const labelPPU=temPPU?`R$ ${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
     const qtdeLabel=melhor.quantidade?`${melhor.quantidade}${melhor.unidade||''}`:'';
 
     const outrosHTML=outros.length?`
@@ -184,11 +190,11 @@ function filtrar(){
             <div class="comp-linha1">
               <span class="comp-nome">${o.mercado_nome}</span>
               <span class="comp-preco">R$ ${Number(o.preco).toFixed(2).replace('.',',')}</span>
-              <span class="comp-diff-badge" style="${corDiffBg(diff)}">+${diff}%</span>
+              <span class="comp-diff-badge" style="${corDiffStyle(diff)}">+${diff}%</span>
             </div>
             <div class="comp-linha2">
               <div class="comp-barra-wrap"><div class="comp-barra" style="width:${pct}%;background:${corBarra(diff)}"></div></div>
-              <span class="comp-detalhe">${o.marca||''} ${qtdeO}${ppuO}</span>
+              <span class="comp-detalhe">${o.marca||''}${qtdeO?' · '+qtdeO:''}${ppuO}</span>
             </div>
           </div>`;
         }).join('')}
@@ -199,12 +205,12 @@ function filtrar(){
         <div><span class="badge-melhor">✅ Melhor preço</span></div>
         <div style="display:flex;justify-content:space-between;align-items:flex-start">
           <div style="flex:1;padding-right:8px">
-            <div class="nome-produto">${melhor.nome_generico||melhor.nome}</div>
-            <div class="info-melhor">🏪 ${melhor.mercado_nome}${melhor.marca?' · '+melhor.marca:''}${qtdeLabel?' · '+qtdeLabel:''}</div>
+            <div class="nome-produto">${melhor.nome_generico||melhor.nome}${qtdeLabel?' '+qtdeLabel:''}</div>
+            <div class="info-melhor">🏪 ${melhor.mercado_nome}${melhor.marca?' · '+melhor.marca:''}</div>
           </div>
           <div style="text-align:right;flex-shrink:0">
             <div class="preco-principal">R$ ${Number(melhor.preco).toFixed(2).replace('.',',')}</div>
-            ${labelPPU?`<div class="preco-kg">R$ ${labelPPU}</div>`:''}
+            ${labelPPU?`<div class="preco-kg">${labelPPU}</div>`:''}
           </div>
         </div>
       </div>

@@ -43,7 +43,7 @@ function parseJSONSeguro(texto){
 }
 
 async function extrairComIA(anthropic,conteudo,tipo){
-  const prompt='Extraia TODOS os produtos com precos deste encarte de supermercado. Para cada produto identifique a categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. Retorne APENAS JSON valido sem texto adicional: {"produtos":[{"nome":"nome completo com quantidade e marca","nome_generico":"ap0,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}';
+  const prompt='Extraia TODOS os produtos com precos deste encarte de supermercado. Regras importantes: 1) nome_generico deve ser ESPECIFICO - ex: "Leite Integral", "Leite Condensado", "Creme de Leite", "Feijao Carioca", "Feijao Preto", "Oleo de Soja", "Azeite de Oliva" - NUNCA use nomes genericos demais como apenas "Leite" ou "Feijao". 2) Sempre extraia quantidade e unidade. 3) Categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. Retorne APENAS JSON valido: {"produtos":[{"nome":"nome completo com marca e quantidade","nome_generico":"tipo especifico do produto sem marca","marca":"marca","preco":0.00,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}';
   let messages;
   if(tipo==='imagem'){
     messages=[{role:'user',content:[{type:'image',source:{type:'base64',media_type:conteudo.mimeType,data:conteudo.data}},{type:'text',text:prompt}]}];
@@ -61,7 +61,7 @@ async function extrairComIA(anthropic,conteudo,tipo){
 async function salvarPromocoes(produtos,mercadoNome,hash){
   const inserts=produtos.map(p=>{
     const ppU=calcularPrecoPorUnidade(p.preco,p.quantidade,p.unidade);
-    return{mercado_nome:mercadoNome,nome:p.nome,marca:p.marca||'',preco:p.preco,quantidade:p.quantidade||null,unidade:p.unidade||'un',unidade_padrao:p.unidade||'un',preco_por_unidade:ppU,categoria:p.categoria||'Outros',foto_hash:hash};
+    return{mercado_nome:mercadoNome,nome:p.nome,nome_generico:p.nome_generico||p.nome,marca:p.marca||'',preco:p.preco,quantidade:p.quantidade||null,unidade:p.unidade||'un',unidade_padrao:p.unidade||'un',preco_por_unidade:ppU,categoria:p.categoria||'Outros',foto_hash:hash};
   });
   const{error}=await supabase.from('promocoes').insert(inserts);
   if(error)throw new Error('Erro ao salvar: '+error.message);
