@@ -1,0 +1,26 @@
+{
+  "name": "promolocal-backend",
+  "version": "1.0.0",
+  "description": "API backend do PromoLocal — crowdsourcing de preços em supermercados",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "@supabase/supabase-js": "^2.107.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "exifreader": "^4.14.1",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^2.4.5",
+    "pdf-to-img": "^6.1.0",
+    "pdfjs-dist": "^6.0.227",
+    "pdfreader": "^3.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

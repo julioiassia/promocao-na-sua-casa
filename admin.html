@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — APP PROMOÇÃO NA SUA CASA</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f0f4f8;color:#222}header{background:#1a7f37;color:white;padding:16px 24px;display:flex;align-items:center;gap:12px}header h1{font-size:18px}.container{max-width:700px;margin:24px auto;padding:0 16px}.card{background:white;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}.card h2{font-size:16px;color:#1a7f37;margin-bottom:16px;border-bottom:2px solid #e8f5e9;padding-bottom:8px}label{display:block;font-size:13px;color:#555;margin-bottom:4px;margin-top:12px;font-weight:bold}input,select{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:15px;outline:none}input:focus,select:focus{border-color:#1a7f37}.tabs{display:flex;margin-bottom:20px;border-radius:10px;overflow:hidden;border:1.5px solid #1a7f37}.tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:bold;font-size:14px;background:white;color:#1a7f37;transition:all 0.2s}.tab.ativo{background:#1a7f37;color:white}.upload-area{border:2px dashed #1a7f37;border-radius:12px;padding:32px;text-align:center;cursor:pointer;background:#f9fff9;position:relative;transition:background 0.2s}.upload-area:hover{background:#e8f5e9}.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}.upload-area .icon{font-size:48px}.upload-area p{color:#555;margin-top:8px}#preview-img{width:100%;max-height:280px;object-fit:cover;border-radius:8px;margin-top:12px;display:none}#preview-pdf{background:#e8f5e9;border-radius:8px;padding:14px;margin-top:12px;display:none;font-size:14px;color:#1a7f37}.btn{display:block;width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:16px;transition:opacity 0.2s}.btn:disabled{opacity:0.5;cursor:not-allowed}.btn-green{background:#1a7f37;color:white}.btn-blue{background:#1565c0;color:white}#resultado-ia{background:#f0f4f8;border-radius:8px;padding:16px;margin-top:16px;display:none}#resultado-ia h3{font-size:14px;color:#1565c0;margin-bottom:10px}.produto-ia{background:white;border:1px solid #ddd;border-radius:8px;padding:12px;margin-bottom:10px}.produto-ia .nome{font-weight:bold;font-size:15px}.produto-ia .preco{color:#1a7f37;font-size:20px;font-weight:bold;margin:4px 0}.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:bold;margin-left:8px}.alta{background:#c8e6c9;color:#1b5e20}.media{background:#fff3e0;color:#e65100}.baixa{background:#ffcdd2;color:#b71c1c}.lista-promocoes .item{background:white;border-radius:10px;padding:14px;margin-bottom:10px;border-left:4px solid #1a7f37;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.06)}.lista-promocoes .item .info .nome{font-weight:bold}.lista-promocoes .item .info .mercado{font-size:12px;color:#888;margin-top:2px}.lista-promocoes .item .preco{font-size:22px;font-weight:bold;color:#1a7f37}.lista-promocoes .item .btn-del{background:none;border:none;cursor:pointer;font-size:18px;color:#ccc;padding:0 8px}.status-msg{padding:12px 16px;border-radius:8px;margin-top:12px;font-size:14px;display:none}.status-msg.ok{background:#c8e6c9;color:#1b5e20}.status-msg.erro{background:#ffcdd2;color:#b71c1c}.status-msg.info{background:#e3f2fd;color:#0d47a1}.spinner{display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:8px}@keyframes spin{to{transform:rotate(360deg)}}.empty{text-align:center;color:#aaa;padding:24px;font-size:14px}.badge-total{background:#1a7f37;color:white;border-radius:20px;padding:2px 10px;font-size:12px;margin-left:8px}
+</style>
+</head>
+<body>
+<header>
+  <span style="font-size:24px">🏷️</span>
+  <div><h1>APP PROMOÇÃO NA SUA CASA</h1><div style="font-size:12px;opacity:0.8">Painel do Administrador</div></div>
+</header>
+<div class="container">
+  <div class="card">
+    <h2>📥 Cadastrar promoções</h2>
+    <div class="tabs">
+      <div class="tab ativo" onclick="trocarAba('foto',this)">📷 Foto / Imagem</div>
+      <div class="tab" onclick="trocarAba('pdf',this)">📄 PDF do encarte</div>
+    </div>
+    <div id="aba-foto">
+      <div class="upload-area">
+        <input type="file" accept="image/*" id="input-foto" onchange="previewFoto(this)">
+        <div class="icon">📷</div>
+        <p><strong>Clique para escolher foto ou imagem</strong></p>
+        <p style="font-size:12px;margin-top:4px">Foto de gôndola, etiqueta ou encarte digital</p>
+      </div>
+      <img id="preview-img" alt="Preview">
+    </div>
+    <div id="aba-pdf" style="display:none">
+      <div class="upload-area">
+        <input type="file" accept=".pdf" id="input-pdf" onchange="previewPDF(this)">
+        <div class="icon">📄</div>
+        <p><strong>Clique para escolher o PDF do encarte</strong></p>
+        <p style="font-size:12px;margin-top:4px">Baixe o encarte em PDF do site do mercado e envie aqui</p>
+      </div>
+      <div id="preview-pdf">📄 <span id="nome-pdf"></span></div>
+    </div>
+    <label>Mercado</label>
+    <select id="sel-mercado">
+      <option value="Mini Preco">Mini Preco</option>
+      <option value="Atacadao Dia-Dia">Atacadao Dia-Dia</option>
+      <option value="novo">+ Adicionar novo mercado...</option>
+    </select>
+    <div id="novo-mercado" style="display:none">
+      <label>Nome do novo mercado</label>
+      <input type="text" id="novo-mercado-nome" placeholder="Ex: Supermercado Silva">
+    </div>
+    <button class="btn btn-green" id="btn-analisar" onclick="analisar()" disabled>🔍 Analisar com IA</button>
+    <div id="resultado-ia">
+      <h3 id="titulo-resultado">✅ Produtos detectados — revise e publique:</h3>
+      <div id="lista-ia"></div>
+      <button class="btn btn-blue" onclick="publicarPromocoes()">🚀 Publicar no banco de dados</button>
+    </div>
+    <div class="status-msg" id="status-upload"></div>
+  </div>
+  <div class="card">
+    <h2>📋 Promoções no banco <span class="badge-total" id="badge-total">0</span></h2>
+    <div class="lista-promocoes" id="lista-publicadas"><div class="empty">Carregando...</div></div>
+  </div>
+</div>
+<script>
+const API='http://localhost:3001';
+let fotoFile=null,pdfFile=null,abaAtual='foto',produtosIA=[];
+
+function trocarAba(aba,el){abaAtual=aba;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ativo'));el.classList.add('ativo');document.getElementById('aba-foto').style.display=aba==='foto'?'block':'none';document.getElementById('aba-pdf').style.display=aba==='pdf'?'block':'none';document.getElementById('btn-analisar').disabled=true;document.getElementById('resultado-ia').style.display='none';}
+document.getElementById('sel-mercado').addEventListener('change',function(){document.getElementById('novo-mercado').style.display=this.value==='novo'?'block':'none';});
+function previewFoto(input){fotoFile=input.files[0];if(!fotoFile)return;const reader=new FileReader();reader.onload=e=>{document.getElementById('preview-img').src=e.target.result;document.getElementById('preview-img').style.display='block';};reader.readAsDataURL(fotoFile);document.getElementById('btn-analisar').disabled=false;}
+function previewPDF(input){pdfFile=input.files[0];if(!pdfFile)return;document.getElementById('nome-pdf').textContent=pdfFile.name;document.getElementById('preview-pdf').style.display='block';document.getElementById('btn-analisar').disabled=false;}
+
+async function analisar(){
+  const btn=document.getElementById('btn-analisar');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Analisando com IA...';
+  mostrarStatus('info','⏳ Enviando para a IA analisar...','status-upload');
+  try{
+    const form=new FormData();let res;
+    if(abaAtual==='foto'&&fotoFile){form.append('foto',fotoFile);res=await fetch(`${API}/upload-admin`,{method:'POST',body:form});}
+    else if(abaAtual==='pdf'&&pdfFile){form.append('pdf',pdfFile);res=await fetch(`${API}/upload-pdf-admin`,{method:'POST',body:form});}
+    const data=await res.json();
+    if(data.produtos&&data.produtos.length>0){
+      produtosIA=data.produtos;
+      const paginas=data.paginas?` (${data.paginas} página(s))`:'';
+      document.getElementById('titulo-resultado').textContent=`✅ ${data.produtos.length} produto(s) detectado(s)${paginas} — revise e publique:`;
+      renderizarProdutosIA(produtosIA);
+      document.getElementById('resultado-ia').style.display='block';
+      mostrarStatus('ok',`✅ ${data.produtos.length} produto(s) encontrado(s). Revise e clique em Publicar.`,'status-upload');
+    }else{mostrarStatus('erro','❌ '+(data.erro||'Nenhum produto encontrado.'),'status-upload');}
+  }catch(e){mostrarStatus('erro','❌ Erro ao conectar com o servidor.','status-upload');}
+  btn.disabled=false;btn.innerHTML='🔍 Analisar com IA';
+}
+
+function renderizarProdutosIA(produtos){
+  document.getElementById('lista-ia').innerHTML=produtos.map((p,i)=>`
+    <div class="produto-ia">
+      <div class="nome">${p.nome} <span class="tag ${p.confianca}">${p.confianca}</span></div>
+      <div class="preco">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
+      <div style="font-size:12px;color:#888">${p.marca||''} ${p.unidade?'· '+p.unidade:''}</div>
+      <label>Corrigir nome</label><input type="text" id="nome-${i}" value="${p.nome}">
+      <label>Corrigir preço</label><input type="number" id="preco-${i}" value="${p.preco}" step="0.01">
+      <label>Validade da promoção</label><input type="date" id="validade-${i}">
+    </div>`).join('');
+}
+
+async function publicarPromocoes(){
+  const sel=document.getElementById('sel-mercado');
+  const mercado=sel.value==='novo'?(document.getElementById('novo-mercado-nome').value||'Novo mercado'):sel.options[sel.selectedIndex].text;
+  const produtos=produtosIA.map((p,i)=>({nome:document.getElementById(`nome-${i}`).value,marca:p.marca,preco:parseFloat(document.getElementById(`preco-${i}`).value),unidade:p.unidade,validade:document.getElementById(`validade-${i}`).value||null}));
+  try{
+    mostrarStatus('info','⏳ Salvando no banco de dados...','status-upload');
+    const res=await fetch(`${API}/publicar`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({produtos,mercado})});
+    const data=await res.json();
+    if(data.sucesso){
+      mostrarStatus('ok',`🎉 ${data.total} promoção(ões) salva(s) no banco com sucesso!`,'status-upload');
+      document.getElementById('resultado-ia').style.display='none';
+      fotoFile=null;pdfFile=null;
+      document.getElementById('preview-img').style.display='none';
+      document.getElementById('preview-pdf').style.display='none';
+      document.getElementById('btn-analisar').disabled=true;
+      carregarPromocoes();
+    }else{mostrarStatus('erro','❌ '+(data.erro||'Erro ao salvar.'),'status-upload');}
+  }catch(e){mostrarStatus('erro','❌ Erro ao conectar com o servidor.','status-upload');}
+}
+
+async function carregarPromocoes(){
+  try{
+    const res=await fetch(`${API}/promocoes`);
+    const data=await res.json();
+    document.getElementById('badge-total').textContent=data.length;
+    const el=document.getElementById('lista-publicadas');
+    if(!data.length){el.innerHTML='<div class="empty">Nenhuma promoção cadastrada ainda.</div>';return;}
+    el.innerHTML=data.map(p=>`
+      <div class="item">
+        <div class="info">
+          <div class="nome">${p.nome}</div>
+          <div class="mercado">🏪 ${p.mercado_nome} · ${p.validade?'Válido até '+new Date(p.validade+'T12:00').toLocaleDateString('pt-BR'):'Cadastrado em '+new Date(p.criado_em).toLocaleDateString('pt-BR')}</div>
+        </div>
+        <div class="preco">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
+      </div>`).join('');
+  }catch(e){document.getElementById('lista-publicadas').innerHTML='<div class="empty">Erro ao carregar.</div>';}
+}
+
+function mostrarStatus(tipo,msg,id){const el=document.getElementById(id);el.className=`status-msg ${tipo}`;el.textContent=msg;el.style.display='block';}
+carregarPromocoes();
+setInterval(carregarPromocoes,10000);
+</script>
+</body>
+</html>
