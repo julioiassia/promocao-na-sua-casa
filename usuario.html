@@ -5,7 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APP PROMOÇÃO NA SUA CASA</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f5f5f5;color:#222;max-width:480px;margin:0 auto}header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20px 16px 28px}.busca-wrap{margin:-18px 16px 0;position:relative;z-index:1}.busca-wrap input{width:100%;padding:14px 16px 14px 42px;border:none;border-radius:12px;font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,0.12);outline:none}.busca-wrap .icon-busca{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#aaa}.secao{padding:20px 16px 8px}.secao h2{font-size:15px;font-weight:bold;color:#444;margin-bottom:12px}.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;padding:7px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:13px;cursor:pointer;background:white;transition:all 0.15s}.chip.ativo{background:#1a7f37;color:white;border-color:#1a7f37}.card-promo{background:white;border-radius:14px;margin:0 16px 12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.07);display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform 0.1s}.card-promo:active{transform:scale(0.98)}.card-promo .emoji{font-size:36px;flex-shrink:0}.card-promo .info{flex:1;min-width:0}.card-promo .nome{font-weight:bold;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-promo .mercado{font-size:12px;color:#888;margin-top:3px}.card-promo .validade{font-size:11px;color:#aaa;margin-top:2px}.card-promo .preco-wrap{text-align:right;flex-shrink:0}.card-promo .preco{font-size:22px;font-weight:bold;color:#1a7f37}.card-promo .unidade{font-size:11px;color:#aaa}.destaque{border-left:4px solid #ff6f00}.badge{display:inline-block;background:#ff6f00;color:white;font-size:10px;font-weight:bold;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle}.empty{text-align:center;padding:48px 16px;color:#bbb}.empty .icon{font-size:48px;margin-bottom:12px}.atualizado{text-align:center;font-size:11px;color:#bbb;padding:16px}.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center}.modal-overlay.aberto{display:flex}.modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp 0.25s ease}@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.modal h3{font-size:18px;margin-bottom:4px}.modal .preco-grande{font-size:36px;font-weight:bold;color:#1a7f37;margin:12px 0}.modal .linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}.modal .linha span:first-child{color:#888}.modal .btn-fechar{margin-top:20px;width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}.modal .btn-rota{margin-top:10px;width:100%;padding:14px;background:#1a7f37;color:white;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f5f5f5;color:#222;max-width:480px;margin:0 auto}header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20px 16px 28px}.busca-wrap{margin:-18px 16px 0;position:relative;z-index:1}.busca-wrap input{width:100%;padding:14px 16px 14px 42px;border:none;border-radius:12px;font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,0.12);outline:none}.busca-wrap .icon-busca{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#aaa}.secao{padding:20px 16px 8px}.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;padding:7px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:13px;cursor:pointer;background:white;transition:all 0.15s}.chip.ativo{background:#1a7f37;color:white;border-color:#1a7f37}
+.card-grupo{background:white;border-radius:14px;margin:0 16px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);overflow:hidden}
+.card-melhor{padding:16px;border-left:4px solid #1a7f37;cursor:pointer}
+.card-melhor .badge-melhor{display:inline-block;background:#e8f5e9;color:#1a7f37;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+.card-melhor .nome{font-weight:bold;font-size:15px;margin-bottom:2px}
+.card-melhor .mercado{font-size:12px;color:#888}
+.card-melhor .preco-principal{font-size:24px;font-weight:bold;color:#1a7f37}
+.card-melhor .preco-kg{font-size:11px;color:#aaa}
+.comparacoes{background:#f9f9f9;border-top:1px solid #eee;padding:10px 16px}
+.comparacoes .titulo{font-size:11px;color:#aaa;margin-bottom:8px}
+.comp-item{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.comp-barra-wrap{flex:1;background:#eee;border-radius:4px;height:5px;overflow:hidden}
+.comp-barra{height:100%;border-radius:4px}
+.comp-info{display:flex;justify-content:space-between;min-width:195px}
+.comp-mercado{font-size:12px;color:#666;width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.comp-preco{font-size:12px;font-weight:bold;color:#333}
+.comp-diff{font-size:11px;width:36px;text-align:right}
+.empty{text-align:center;padding:48px 16px;color:#bbb}.empty .icon{font-size:48px;margin-bottom:12px}
+.atualizado{text-align:center;font-size:11px;color:#bbb;padding:16px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center}.modal-overlay.aberto{display:flex}.modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp 0.25s ease}@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.modal h3{font-size:18px;margin-bottom:4px}.modal .preco-grande{font-size:36px;font-weight:bold;color:#1a7f37;margin:12px 0}.modal .linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}.modal .linha span:first-child{color:#888}.btn-fechar{margin-top:20px;width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}.btn-rota{margin-top:10px;width:100%;padding:14px;background:#1a7f37;color:white;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
 </style>
 </head>
 <body>
@@ -18,21 +37,13 @@
   <input type="text" id="busca" placeholder="Buscar produto..." oninput="filtrar()">
 </div>
 <div class="secao">
-  <div class="chips" id="chips-categorias">
-    <div class="chip ativo" onclick="filtrarCategoria('',this)">Todos</div>
-    <div class="chip" onclick="filtrarCategoria('frango',this)">🥩 Carnes</div>
-    <div class="chip" onclick="filtrarCategoria('arroz',this)">🌾 Grãos</div>
-    <div class="chip" onclick="filtrarCategoria('leite',this)">🥛 Laticínios</div>
-    <div class="chip" onclick="filtrarCategoria('cafe',this)">☕ Bebidas</div>
-    <div class="chip" onclick="filtrarCategoria('sabao',this)">🧹 Limpeza</div>
-    <div class="chip" onclick="filtrarCategoria('pao',this)">🍞 Padaria</div>
-  </div>
+  <div class="chips" id="chips"></div>
 </div>
-<div class="secao"><h2>🔥 Melhores ofertas hoje</h2></div>
+<div class="secao"><h2 style="font-size:15px;font-weight:bold;color:#444;margin-bottom:12px">🔥 Melhor preço por produto</h2></div>
 <div id="lista-promocoes"><div class="empty"><div class="icon">⏳</div><p>Carregando promoções...</p></div></div>
 <div class="atualizado" id="atualizado"></div>
 <div class="modal-overlay" id="modal-overlay" onclick="fecharModal(event)">
-  <div class="modal" id="modal">
+  <div class="modal">
     <div id="modal-conteudo"></div>
     <button class="btn-rota" onclick="abrirMapa()">📍 Ver no mapa</button>
     <button class="btn-fechar" onclick="fecharModal()">Fechar</button>
@@ -41,62 +52,133 @@
 <script>
 const API='https://promocao-na-sua-casa.onrender.com';
 let todasPromocoes=[];
-let filtroCategoria='';
+let categoriaAtiva='';
 let promoSelecionada=null;
 
-function emojiProduto(nome){
-  nome=(nome||'').toLowerCase();
-  if(nome.includes('arroz')||nome.includes('feijao')||nome.includes('feijão'))return'🌾';
-  if(nome.includes('frango')||nome.includes('carne')||nome.includes('picanha')||nome.includes('linguica')||nome.includes('linguiça'))return'🥩';
-  if(nome.includes('leite')||nome.includes('queijo')||nome.includes('iogurte'))return'🥛';
-  if(nome.includes('pao')||nome.includes('pão')||nome.includes('biscoito'))return'🍞';
-  if(nome.includes('banana')||nome.includes('maca')||nome.includes('laranja')||nome.includes('tomate'))return'🍎';
-  if(nome.includes('coca')||nome.includes('suco')||nome.includes('refri')||nome.includes('agua')||nome.includes('água'))return'🥤';
-  if(nome.includes('sabao')||nome.includes('sabão')||nome.includes('detergente')||nome.includes('limpeza')||nome.includes('omo'))return'🧹';
-  if(nome.includes('cafe')||nome.includes('café'))return'☕';
-  if(nome.includes('oleo')||nome.includes('óleo')||nome.includes('azeite'))return'🫙';
-  if(nome.includes('macarrao')||nome.includes('macarrão')||nome.includes('massa'))return'🍝';
-  if(nome.includes('acucar')||nome.includes('açúcar'))return'🍬';
-  if(nome.includes('vinho'))return'🍷';
-  return'🛒';
+const CATEGORIAS=[
+  {nome:'Todos',emoji:'🛒'},
+  {nome:'Graos e Cereais',emoji:'🌾'},
+  {nome:'Carnes e Aves',emoji:'🥩'},
+  {nome:'Laticinios',emoji:'🥛'},
+  {nome:'Padaria',emoji:'🍞'},
+  {nome:'Hortifruti',emoji:'🥬'},
+  {nome:'Bebidas',emoji:'🥤'},
+  {nome:'Limpeza',emoji:'🧹'},
+  {nome:'Higiene Pessoal',emoji:'🧴'},
+  {nome:'Mercearia',emoji:'🫙'},
+  {nome:'Frios e Embutidos',emoji:'🧀'},
+  {nome:'Congelados',emoji:'❄️'},
+  {nome:'Outros',emoji:'📦'}
+];
+
+function normalizar(t){return(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+
+function corBarra(pct){if(pct<=15)return'#a5d6a7';if(pct<=35)return'#ffd54f';return'#ef9a9a';}
+
+function corDiff(pct){if(pct<=15)return'color:#4caf50';if(pct<=35)return'color:#f57c00';return'color:#e53935';}
+
+function agruparPorProduto(lista){
+  const grupos={};
+  lista.forEach(p=>{
+    const chave=normalizar(p.nome).replace(/\s+/g,' ').trim();
+    if(!grupos[chave])grupos[chave]=[];
+    grupos[chave].push(p);
+  });
+  return grupos;
+}
+
+function renderizarChips(){
+  const cats=new Set(todasPromocoes.map(p=>p.categoria||'Outros'));
+  const disponiveis=CATEGORIAS.filter(c=>c.nome==='Todos'||cats.has(c.nome));
+  document.getElementById('chips').innerHTML=disponiveis.map(c=>`
+    <div class="chip ${categoriaAtiva===c.nome||(!categoriaAtiva&&c.nome==='Todos')?'ativo':''}" onclick="filtrarCategoria('${c.nome==='Todos'?'':c.nome}',this)">
+      ${c.emoji} ${c.nome}
+    </div>`).join('');
 }
 
 async function carregarPromocoes(){
   try{
     const res=await fetch(`${API}/promocoes`);
     todasPromocoes=await res.json();
+    renderizarChips();
     filtrar();
     document.getElementById('atualizado').textContent='Atualizado agora · '+todasPromocoes.length+' oferta(s)';
   }catch(e){
-    document.getElementById('lista-promocoes').innerHTML='<div class="empty"><div class="icon">😕</div><p>Erro ao carregar. Verifique se o servidor está rodando.</p></div>';
+    document.getElementById('lista-promocoes').innerHTML='<div class="empty"><div class="icon">😕</div><p>Erro ao carregar. Verifique a conexão.</p></div>';
   }
 }
 
 function filtrar(){
-  const busca=document.getElementById('busca').value.toLowerCase();
-  const lista=todasPromocoes.filter(p=>
-    (!busca||p.nome.toLowerCase().includes(busca)||(p.marca||'').toLowerCase().includes(busca))&&
-    (!filtroCategoria||p.nome.toLowerCase().includes(filtroCategoria))
-  );
+  const busca=normalizar(document.getElementById('busca').value);
+  let lista=todasPromocoes.filter(p=>{
+    const nomeNorm=normalizar(p.nome);
+    const marcaNorm=normalizar(p.marca||'');
+    const catNorm=normalizar(p.categoria||'');
+    const buscaOk=!busca||nomeNorm.includes(busca)||marcaNorm.includes(busca)||catNorm.includes(busca);
+    const catOk=!categoriaAtiva||normalizar(p.categoria||'')==normalizar(categoriaAtiva);
+    return buscaOk&&catOk;
+  });
+
+  const grupos=agruparPorProduto(lista);
   const el=document.getElementById('lista-promocoes');
-  if(!lista.length){el.innerHTML='<div class="empty"><div class="icon">😕</div><p>Nenhuma promoção encontrada.</p></div>';return;}
-  el.innerHTML=lista.map((p,i)=>`
-    <div class="card-promo ${i<2?'destaque':''}" onclick="abrirDetalhe(${p.id})">
-      <div class="emoji">${emojiProduto(p.nome)}</div>
-      <div class="info">
-        <div class="nome">${p.nome}${i<2?'<span class="badge">OFERTA</span>':''}</div>
-        <div class="mercado">🏪 ${p.mercado_nome}</div>
-        <div class="validade">${p.validade?'Válido até '+new Date(p.validade+'T12:00').toLocaleDateString('pt-BR'):'Cadastrado em '+new Date(p.criado_em).toLocaleDateString('pt-BR')}</div>
+
+  if(!Object.keys(grupos).length){
+    el.innerHTML='<div class="empty"><div class="icon">😕</div><p>Nenhuma promoção encontrada.</p></div>';
+    return;
+  }
+
+  el.innerHTML=Object.values(grupos).map(grupo=>{
+    const ordenado=[...grupo].sort((a,b)=>{
+      const pa=a.preco_por_unidade||a.preco;
+      const pb=b.preco_por_unidade||b.preco;
+      return pa-pb;
+    });
+    const melhor=ordenado[0];
+    const outros=ordenado.slice(1);
+    const precoBase=melhor.preco_por_unidade||melhor.preco;
+
+    const temPPU=melhor.preco_por_unidade&&melhor.quantidade;
+    const labelPPU=temPPU?`R$ ${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
+
+    const outrosHTML=outros.length?`
+      <div class="comparacoes">
+        <div class="titulo">Outros mercados</div>
+        ${outros.map(o=>{
+          const precoO=o.preco_por_unidade||o.preco;
+          const diff=precoBase>0?Math.round(((precoO-precoBase)/precoBase)*100):0;
+          const pct=Math.min(100,Math.round((precoO/precoBase)*65));
+          return`<div class="comp-item">
+            <div class="comp-barra-wrap"><div class="comp-barra" style="width:${pct}%;background:${corBarra(diff)}"></div></div>
+            <div class="comp-info">
+              <span class="comp-mercado">${o.mercado_nome}</span>
+              <span class="comp-preco">R$ ${Number(o.preco).toFixed(2).replace('.',',')}</span>
+              <span class="comp-diff" style="${corDiff(diff)}">+${diff}%</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`:'';
+
+    return`<div class="card-grupo">
+      <div class="card-melhor" onclick="abrirDetalhe(${melhor.id})">
+        <div><span class="badge-melhor">✅ Melhor preço</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1">
+            <div class="nome">${melhor.nome}</div>
+            <div class="mercado">🏪 ${melhor.mercado_nome}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="preco-principal">R$ ${Number(melhor.preco).toFixed(2).replace('.',',')}</div>
+            ${labelPPU?`<div class="preco-kg">${labelPPU}</div>`:''}
+          </div>
+        </div>
       </div>
-      <div class="preco-wrap">
-        <div class="preco">R$&nbsp;${Number(p.preco).toFixed(2).replace('.',',')}</div>
-        <div class="unidade">${p.unidade||''}</div>
-      </div>
-    </div>`).join('');
+      ${outrosHTML}
+    </div>`;
+  }).join('');
 }
 
 function filtrarCategoria(cat,el){
-  filtroCategoria=cat;
+  categoriaAtiva=cat;
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('ativo'));
   el.classList.add('ativo');
   filtrar();
@@ -107,13 +189,14 @@ function abrirDetalhe(id){
   if(!promoSelecionada)return;
   const p=promoSelecionada;
   document.getElementById('modal-conteudo').innerHTML=`
-    <div style="font-size:48px;text-align:center">${emojiProduto(p.nome)}</div>
-    <h3 style="text-align:center;margin-top:8px">${p.nome}</h3>
-    <div class="preco-grande" style="text-align:center">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
+    <h3>${p.nome}</h3>
+    <div class="preco-grande">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
     <div class="linha"><span>Mercado</span><span><b>${p.mercado_nome}</b></span></div>
     ${p.marca?`<div class="linha"><span>Marca</span><span>${p.marca}</span></div>`:''}
-    ${p.unidade?`<div class="linha"><span>Unidade</span><span>${p.unidade}</span></div>`:''}
-    ${p.validade?`<div class="linha"><span>Válido até</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:''}
+    ${p.quantidade?`<div class="linha"><span>Quantidade</span><span>${p.quantidade} ${p.unidade||''}</span></div>`:''}
+    ${p.preco_por_unidade?`<div class="linha"><span>Preco por unidade</span><span>R$ ${p.preco_por_unidade.toFixed(2).replace('.',',')}/${p.unidade_padrao||p.unidade}</span></div>`:''}
+    ${p.categoria?`<div class="linha"><span>Categoria</span><span>${p.categoria}</span></div>`:''}
+    ${p.validade?`<div class="linha"><span>Valido ate</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:''}
     <div class="linha"><span>Cadastrado em</span><span>${new Date(p.criado_em).toLocaleDateString('pt-BR')}</span></div>`;
   document.getElementById('modal-overlay').classList.add('aberto');
 }
@@ -122,7 +205,7 @@ function fecharModal(e){if(!e||e.target===document.getElementById('modal-overlay
 function abrirMapa(){if(promoSelecionada)window.open(`https://www.google.com/maps/search/${encodeURIComponent(promoSelecionada.mercado_nome)}`,'_blank');}
 
 carregarPromocoes();
-setInterval(carregarPromocoes,15000);
+setInterval(carregarPromocoes,30000);
 </script>
 </body>
 </html>
