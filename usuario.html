@@ -5,26 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APP PROMOÇÃO NA SUA CASA</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#f5f5f5;color:#222;max-width:480px;margin:0 auto}header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20px 16px 28px}.busca-wrap{margin:-18px 16px 0;position:relative;z-index:1}.busca-wrap input{width:100%;padding:14px 16px 14px 42px;border:none;border-radius:12px;font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,0.12);outline:none}.busca-wrap .icon-busca{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#aaa}.secao{padding:20px 16px 8px}.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{white-space:nowrap;padding:7px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:13px;cursor:pointer;background:white;transition:all 0.15s}.chip.ativo{background:#1a7f37;color:white;border-color:#1a7f37}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f5f5;color:#222;max-width:480px;margin:0 auto}
+header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20px 16px 28px}
+.busca-wrap{margin:-18px 16px 0;position:relative;z-index:1}
+.busca-wrap input{width:100%;padding:14px 16px 14px 42px;border:none;border-radius:12px;font-size:15px;box-shadow:0 4px 16px rgba(0,0,0,0.12);outline:none}
+.busca-wrap .icon-busca{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#aaa}
+.secao{padding:20px 16px 8px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{white-space:nowrap;padding:7px 14px;border-radius:20px;border:1.5px solid #ddd;font-size:13px;cursor:pointer;background:white;transition:all 0.15s}
+.chip.ativo{background:#1a7f37;color:white;border-color:#1a7f37}
 .card-grupo{background:white;border-radius:14px;margin:0 16px 12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);overflow:hidden}
-.card-melhor{padding:16px;border-left:4px solid #1a7f37;cursor:pointer}
-.card-melhor .badge-melhor{display:inline-block;background:#e8f5e9;color:#1a7f37;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;margin-bottom:6px}
-.card-melhor .nome{font-weight:bold;font-size:15px;margin-bottom:2px}
-.card-melhor .mercado{font-size:12px;color:#888}
-.card-melhor .preco-principal{font-size:24px;font-weight:bold;color:#1a7f37}
-.card-melhor .preco-kg{font-size:11px;color:#aaa}
-.comparacoes{background:#f9f9f9;border-top:1px solid #eee;padding:10px 16px}
-.comparacoes .titulo{font-size:11px;color:#aaa;margin-bottom:8px}
-.comp-item{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.comp-barra-wrap{flex:1;background:#eee;border-radius:4px;height:5px;overflow:hidden}
+.card-melhor{padding:16px;border-left:4px solid #1a7f37;cursor:pointer;transition:background 0.15s}
+.card-melhor:hover{background:#f9fff9}
+.badge-melhor{display:inline-block;background:#e8f5e9;color:#1a7f37;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+.nome-produto{font-weight:bold;font-size:15px;margin-bottom:2px}
+.info-melhor{font-size:12px;color:#888;margin-top:2px}
+.preco-principal{font-size:24px;font-weight:bold;color:#1a7f37}
+.preco-kg{font-size:11px;color:#aaa;margin-top:2px;text-align:right}
+.comparacoes{border-top:1px solid #f0f0f0}
+.comp-titulo{font-size:11px;color:#aaa;padding:8px 16px 4px}
+.comp-item{padding:10px 16px;border-top:1px solid #f5f5f5;cursor:pointer;transition:background 0.15s}
+.comp-item:hover{background:#f9f9f9}
+.comp-linha1{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.comp-nome{font-size:13px;font-weight:bold;color:#333;flex:1}
+.comp-preco{font-size:14px;font-weight:bold;color:#555;margin:0 8px}
+.comp-diff-badge{font-size:11px;font-weight:bold;padding:2px 7px;border-radius:10px}
+.comp-linha2{display:flex;align-items:center;gap:8px}
+.comp-barra-wrap{flex:1;background:#eee;border-radius:4px;height:4px;overflow:hidden}
 .comp-barra{height:100%;border-radius:4px}
-.comp-info{display:flex;justify-content:space-between;min-width:195px}
-.comp-mercado{font-size:12px;color:#666;width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.comp-preco{font-size:12px;font-weight:bold;color:#333}
-.comp-diff{font-size:11px;width:36px;text-align:right}
-.empty{text-align:center;padding:48px 16px;color:#bbb}.empty .icon{font-size:48px;margin-bottom:12px}
+.comp-detalhe{font-size:11px;color:#999}
+.empty{text-align:center;padding:48px 16px;color:#bbb}
+.empty .icon{font-size:48px;margin-bottom:12px}
 .atualizado{text-align:center;font-size:11px;color:#bbb;padding:16px}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center}.modal-overlay.aberto{display:flex}.modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp 0.25s ease}@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}.modal h3{font-size:18px;margin-bottom:4px}.modal .preco-grande{font-size:36px;font-weight:bold;color:#1a7f37;margin:12px 0}.modal .linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}.modal .linha span:first-child{color:#888}.btn-fechar{margin-top:20px;width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}.btn-rota{margin-top:10px;width:100%;padding:14px;background:#1a7f37;color:white;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:flex-end;justify-content:center}
+.modal-overlay.aberto{display:flex}
+.modal{background:white;border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp 0.25s ease;max-height:85vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.modal-nome{font-size:18px;font-weight:bold;flex:1;padding-right:12px}
+.modal-fechar-x{background:none;border:none;font-size:22px;cursor:pointer;color:#aaa;padding:0}
+.modal-preco{font-size:36px;font-weight:bold;color:#1a7f37;margin:8px 0 16px}
+.modal-linha{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}
+.modal-linha span:first-child{color:#888}
+.modal-linha span:last-child{font-weight:bold;text-align:right}
+.btn-fechar{margin-top:20px;width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
+.btn-rota{margin-top:10px;width:100%;padding:14px;background:#1a7f37;color:white;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
 </style>
 </head>
 <body>
@@ -39,13 +66,13 @@
 <div class="secao">
   <div class="chips" id="chips"></div>
 </div>
-<div class="secao"><h2 style="font-size:15px;font-weight:bold;color:#444;margin-bottom:12px">🔥 Melhor preço por produto</h2></div>
+<div class="secao"><h2 style="font-size:15px;font-weight:bold;color:#444;margin-bottom:4px">🔥 Melhor preço por produto</h2></div>
 <div id="lista-promocoes"><div class="empty"><div class="icon">⏳</div><p>Carregando promoções...</p></div></div>
 <div class="atualizado" id="atualizado"></div>
-<div class="modal-overlay" id="modal-overlay" onclick="fecharModal(event)">
+<div class="modal-overlay" id="modal-overlay" onclick="fecharModalOverlay(event)">
   <div class="modal">
     <div id="modal-conteudo"></div>
-    <button class="btn-rota" onclick="abrirMapa()">📍 Ver no mapa</button>
+    <button class="btn-rota" id="btn-rota" onclick="abrirMapa()">📍 Ver no mapa</button>
     <button class="btn-fechar" onclick="fecharModal()">Fechar</button>
   </div>
 </div>
@@ -71,11 +98,11 @@ const CATEGORIAS=[
   {nome:'Outros',emoji:'📦'}
 ];
 
-function normalizar(t){return(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function normalizar(t){return(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
 
-function corBarra(pct){if(pct<=15)return'#a5d6a7';if(pct<=35)return'#ffd54f';return'#ef9a9a';}
+function corBarra(pct){if(pct<=15)return'#81c784';if(pct<=35)return'#ffb74d';return'#e57373';}
 
-function corDiff(pct){if(pct<=15)return'color:#4caf50';if(pct<=35)return'color:#f57c00';return'color:#e53935';}
+function corDiffBg(pct){if(pct<=15)return'background:#e8f5e9;color:#2e7d32';if(pct<=35)return'background:#fff3e0;color:#e65100';return'background:#ffebee;color:#c62828';}
 
 function agruparPorProduto(lista){
   const grupos={};
@@ -112,9 +139,10 @@ function filtrar(){
   const busca=normalizar(document.getElementById('busca').value);
   let lista=todasPromocoes.filter(p=>{
     const nomeNorm=normalizar(p.nome);
+    const genNorm=normalizar(p.nome_generico||'');
     const marcaNorm=normalizar(p.marca||'');
     const catNorm=normalizar(p.categoria||'');
-    const buscaOk=!busca||nomeNorm.includes(busca)||marcaNorm.includes(busca)||catNorm.includes(busca);
+    const buscaOk=!busca||nomeNorm.includes(busca)||genNorm.includes(busca)||marcaNorm.includes(busca)||catNorm.includes(busca);
     const catOk=!categoriaAtiva||normalizar(p.categoria||'')==normalizar(categoriaAtiva);
     return buscaOk&&catOk;
   });
@@ -127,7 +155,10 @@ function filtrar(){
     return;
   }
 
-  el.innerHTML=Object.values(grupos).map(grupo=>{
+  // Ordena: grupos com comparação primeiro, depois sozinhos
+  const gruposOrdenados=Object.entries(grupos).sort((a,b)=>b[1].length-a[1].length);
+
+  el.innerHTML=gruposOrdenados.map(([chave,grupo])=>{
     const ordenado=[...grupo].sort((a,b)=>{
       const pa=a.preco_por_unidade||a.preco;
       const pb=b.preco_por_unidade||b.preco;
@@ -136,23 +167,28 @@ function filtrar(){
     const melhor=ordenado[0];
     const outros=ordenado.slice(1);
     const precoBase=melhor.preco_por_unidade||melhor.preco;
-
     const temPPU=melhor.preco_por_unidade&&melhor.quantidade;
-    const labelPPU=temPPU?`R$ ${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
+    const labelPPU=temPPU?`${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
+    const qtdeLabel=melhor.quantidade?`${melhor.quantidade}${melhor.unidade||''}`:'';
 
     const outrosHTML=outros.length?`
       <div class="comparacoes">
-        <div class="titulo">Outros mercados</div>
+        <div class="comp-titulo">Outros mercados</div>
         ${outros.map(o=>{
           const precoO=o.preco_por_unidade||o.preco;
           const diff=precoBase>0?Math.round(((precoO-precoBase)/precoBase)*100):0;
-          const pct=Math.min(100,Math.round((precoO/precoBase)*65));
-          return`<div class="comp-item">
-            <div class="comp-barra-wrap"><div class="comp-barra" style="width:${pct}%;background:${corBarra(diff)}"></div></div>
-            <div class="comp-info">
-              <span class="comp-mercado">${o.mercado_nome}</span>
+          const pct=Math.min(100,Math.round((precoO/precoBase)*60));
+          const qtdeO=o.quantidade?`${o.quantidade}${o.unidade||''}`:'';
+          const ppuO=o.preco_por_unidade?` · R$${o.preco_por_unidade.toFixed(2).replace('.',',')}/${o.unidade_padrao||o.unidade}`:'';
+          return`<div class="comp-item" onclick="abrirDetalhe(${o.id})">
+            <div class="comp-linha1">
+              <span class="comp-nome">${o.mercado_nome}</span>
               <span class="comp-preco">R$ ${Number(o.preco).toFixed(2).replace('.',',')}</span>
-              <span class="comp-diff" style="${corDiff(diff)}">+${diff}%</span>
+              <span class="comp-diff-badge" style="${corDiffBg(diff)}">+${diff}%</span>
+            </div>
+            <div class="comp-linha2">
+              <div class="comp-barra-wrap"><div class="comp-barra" style="width:${pct}%;background:${corBarra(diff)}"></div></div>
+              <span class="comp-detalhe">${o.marca||''} ${qtdeO}${ppuO}</span>
             </div>
           </div>`;
         }).join('')}
@@ -162,13 +198,13 @@ function filtrar(){
       <div class="card-melhor" onclick="abrirDetalhe(${melhor.id})">
         <div><span class="badge-melhor">✅ Melhor preço</span></div>
         <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div style="flex:1">
-            <div class="nome">${melhor.nome}</div>
-            <div class="mercado">🏪 ${melhor.mercado_nome}</div>
+          <div style="flex:1;padding-right:8px">
+            <div class="nome-produto">${melhor.nome_generico||melhor.nome}</div>
+            <div class="info-melhor">🏪 ${melhor.mercado_nome}${melhor.marca?' · '+melhor.marca:''}${qtdeLabel?' · '+qtdeLabel:''}</div>
           </div>
-          <div style="text-align:right">
+          <div style="text-align:right;flex-shrink:0">
             <div class="preco-principal">R$ ${Number(melhor.preco).toFixed(2).replace('.',',')}</div>
-            ${labelPPU?`<div class="preco-kg">${labelPPU}</div>`:''}
+            ${labelPPU?`<div class="preco-kg">R$ ${labelPPU}</div>`:''}
           </div>
         </div>
       </div>
@@ -188,20 +224,26 @@ function abrirDetalhe(id){
   promoSelecionada=todasPromocoes.find(p=>p.id===id);
   if(!promoSelecionada)return;
   const p=promoSelecionada;
+  const qtde=p.quantidade?`${p.quantidade} ${p.unidade||''}`:'';
+  const ppu=p.preco_por_unidade?`R$ ${p.preco_por_unidade.toFixed(2).replace('.',',')}/${p.unidade_padrao||p.unidade}`:'';
   document.getElementById('modal-conteudo').innerHTML=`
-    <h3>${p.nome}</h3>
-    <div class="preco-grande">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
-    <div class="linha"><span>Mercado</span><span><b>${p.mercado_nome}</b></span></div>
-    ${p.marca?`<div class="linha"><span>Marca</span><span>${p.marca}</span></div>`:''}
-    ${p.quantidade?`<div class="linha"><span>Quantidade</span><span>${p.quantidade} ${p.unidade||''}</span></div>`:''}
-    ${p.preco_por_unidade?`<div class="linha"><span>Preco por unidade</span><span>R$ ${p.preco_por_unidade.toFixed(2).replace('.',',')}/${p.unidade_padrao||p.unidade}</span></div>`:''}
-    ${p.categoria?`<div class="linha"><span>Categoria</span><span>${p.categoria}</span></div>`:''}
-    ${p.validade?`<div class="linha"><span>Valido ate</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:''}
-    <div class="linha"><span>Cadastrado em</span><span>${new Date(p.criado_em).toLocaleDateString('pt-BR')}</span></div>`;
+    <div class="modal-header">
+      <div class="modal-nome">${p.nome}</div>
+      <button class="modal-fechar-x" onclick="fecharModal()">✕</button>
+    </div>
+    <div class="modal-preco">R$ ${Number(p.preco).toFixed(2).replace('.',',')}</div>
+    <div class="modal-linha"><span>Mercado</span><span>${p.mercado_nome}</span></div>
+    ${p.marca?`<div class="modal-linha"><span>Marca</span><span>${p.marca}</span></div>`:''}
+    ${qtde?`<div class="modal-linha"><span>Quantidade</span><span>${qtde}</span></div>`:''}
+    ${ppu?`<div class="modal-linha"><span>Preço por unidade</span><span>${ppu}</span></div>`:''}
+    ${p.categoria?`<div class="modal-linha"><span>Categoria</span><span>${p.categoria}</span></div>`:''}
+    ${p.validade?`<div class="modal-linha"><span>Válido até</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:''}
+    <div class="modal-linha"><span>Cadastrado em</span><span>${new Date(p.criado_em).toLocaleDateString('pt-BR')}</span></div>`;
   document.getElementById('modal-overlay').classList.add('aberto');
 }
 
-function fecharModal(e){if(!e||e.target===document.getElementById('modal-overlay'))document.getElementById('modal-overlay').classList.remove('aberto');}
+function fecharModalOverlay(e){if(e.target===document.getElementById('modal-overlay'))fecharModal();}
+function fecharModal(){document.getElementById('modal-overlay').classList.remove('aberto');}
 function abrirMapa(){if(promoSelecionada)window.open(`https://www.google.com/maps/search/${encodeURIComponent(promoSelecionada.mercado_nome)}`,'_blank');}
 
 carregarPromocoes();
