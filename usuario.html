@@ -52,7 +52,13 @@ header{background:linear-gradient(135deg,#1a7f37,#2ea44f);color:white;padding:20
 .modal-linha span:last-child{font-weight:bold;text-align:right}
 .btn-fechar{margin-top:20px;width:100%;padding:14px;background:#f0f0f0;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
 .btn-rota{margin-top:10px;width:100%;padding:14px;background:#1a7f37;color:white;border:none;border-radius:10px;font-size:15px;font-weight:bold;cursor:pointer}
+.badge-expira{display:inline-block;background:#fff3e0;color:#e65100;font-size:11px;font-weight:bold;padding:2px 8px;border-radius:10px;margin-left:6px}
+.badge-expira-urgente{background:#ffebee;color:#c62828}
+.grafico-wrap{margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0}
+.grafico-titulo{font-size:13px;font-weight:bold;color:#1a7f37;margin-bottom:10px}
+.grafico-vazio{text-align:center;color:#bbb;font-size:13px;padding:16px 0}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 <header>
@@ -176,6 +182,17 @@ function filtrar(){
     const temPPU=melhor.preco_por_unidade&&melhor.quantidade;
     const labelPPU=temPPU?`R$ ${melhor.preco_por_unidade.toFixed(2).replace('.',',')}/${melhor.unidade_padrao||melhor.unidade}`:'';
     const qtdeLabel=melhor.quantidade?`${melhor.quantidade}${melhor.unidade||''}`:'';
+    // Badge de validade próxima
+    let badgeValidade='';
+    if(melhor.validade){
+      const hoje2=new Date();hoje2.setHours(0,0,0,0);
+      const val=new Date(melhor.validade+'T00:00:00');
+      const dias=Math.round((val-hoje2)/(1000*60*60*24));
+      if(dias<=1)badgeValidade=`<span class="badge-expira badge-expira-urgente">⚠️ Último dia!</span>`;
+      else if(dias<=3)badgeValidade=`<span class="badge-expira">⚠️ Expira em ${dias} dias</span>`;
+    }else{
+      badgeValidade=`<span class="badge-expira">📅 Pode valer só hoje</span>`;
+    }
 
     const outrosHTML=outros.length?`
       <div class="comparacoes">
@@ -202,7 +219,7 @@ function filtrar(){
 
     return`<div class="card-grupo">
       <div class="card-melhor" onclick="abrirDetalhe(${melhor.id})">
-        <div><span class="badge-melhor">✅ Melhor preço</span></div>
+        <div><span class="badge-melhor">✅ Melhor preço</span>${badgeValidade}</div>
         <div style="display:flex;justify-content:space-between;align-items:flex-start">
           <div style="flex:1;padding-right:8px">
             <div class="nome-produto">${melhor.nome_generico||melhor.nome}${qtdeLabel?' '+qtdeLabel:''}</div>
@@ -243,9 +260,62 @@ function abrirDetalhe(id){
     ${qtde?`<div class="modal-linha"><span>Quantidade</span><span>${qtde}</span></div>`:''}
     ${ppu?`<div class="modal-linha"><span>Preço por unidade</span><span>${ppu}</span></div>`:''}
     ${p.categoria?`<div class="modal-linha"><span>Categoria</span><span>${p.categoria}</span></div>`:''}
-    ${p.validade?`<div class="modal-linha"><span>Válido até</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:''}
-    <div class="modal-linha"><span>Cadastrado em</span><span>${new Date(p.criado_em).toLocaleDateString('pt-BR')}</span></div>`;
+    ${p.validade?`<div class="modal-linha"><span>Válido até</span><span>${new Date(p.validade+'T12:00').toLocaleDateString('pt-BR')}</span></div>`:`<div class="modal-linha"><span>Validade</span><span style="color:#e65100">⚠️ Pode valer só hoje — confirme no mercado</span></div>`}
+    <div class="modal-linha"><span>Cadastrado em</span><span>${new Date(p.criado_em).toLocaleDateString('pt-BR')}</span></div>
+    <div class="grafico-wrap">
+      <div class="grafico-titulo">📈 Evolução do preço</div>
+      <div id="grafico-loading" class="grafico-vazio">Carregando histórico...</div>
+      <canvas id="chart-preco" style="display:none"></canvas>
+    </div>`;
   document.getElementById('modal-overlay').classList.add('aberto');
+  carregarGrafico(p.nome_generico||p.nome);
+}
+
+async function carregarGrafico(nomeGenerico){
+  const loading=document.getElementById('grafico-loading');
+  const canvas=document.getElementById('chart-preco');
+  loading.style.display='block';
+  canvas.style.display='none';
+  if(window._chartPreco){window._chartPreco.destroy();window._chartPreco=null;}
+  try{
+    const res=await fetch(`${API}/historico/${encodeURIComponent(nomeGenerico)}`);
+    const historico=await res.json();
+    loading.style.display='none';
+    if(!historico||!historico.length){
+      loading.textContent='Sem histórico ainda. Volte após novos encartes serem cadastrados.';
+      loading.style.display='block';
+      return;
+    }
+    canvas.style.display='block';
+    const labels=historico.map(h=>{
+      const d=new Date(h.dia+'T12:00');
+      return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+    });
+    window._chartPreco=new Chart(canvas.getContext('2d'),{
+      type:'line',
+      data:{
+        labels,
+        datasets:[
+          {label:'Melhor preço',data:historico.map(h=>h.melhor),borderColor:'#1a7f37',backgroundColor:'rgba(26,127,55,0.08)',tension:0.3,fill:true,pointRadius:4,pointBackgroundColor:'#1a7f37'},
+          {label:'Maior preço',data:historico.map(h=>h.pior),borderColor:'#e57373',backgroundColor:'rgba(229,115,115,0.05)',tension:0.3,fill:false,pointRadius:4,pointBackgroundColor:'#e57373',borderDash:[5,4]}
+        ]
+      },
+      options:{
+        responsive:true,
+        plugins:{
+          legend:{position:'bottom',labels:{font:{size:11},boxWidth:12}},
+          tooltip:{callbacks:{label:ctx=>'R$ '+ctx.parsed.y.toFixed(2).replace('.',',')}}
+        },
+        scales:{
+          y:{ticks:{callback:v=>'R$'+Number(v).toFixed(2).replace('.',','),font:{size:11}},grid:{color:'#f0f0f0'}},
+          x:{ticks:{font:{size:11}}}
+        }
+      }
+    });
+  }catch(e){
+    loading.textContent='Erro ao carregar histórico.';
+    loading.style.display='block';
+  }
 }
 
 function fecharModalOverlay(e){if(e.target===document.getElementById('modal-overlay'))fecharModal();}

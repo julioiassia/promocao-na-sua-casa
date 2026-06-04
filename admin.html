@@ -99,14 +99,14 @@ function renderizarProdutosIA(produtos){
       <div style="font-size:12px;color:#888">${p.marca||''} ${p.unidade?'· '+p.unidade:''}</div>
       <label>Corrigir nome</label><input type="text" id="nome-${i}" value="${p.nome}">
       <label>Corrigir preço</label><input type="number" id="preco-${i}" value="${p.preco}" step="0.01">
-      <label>Validade da promoção</label><input type="date" id="validade-${i}">
+      <label>Validade da promoção ${p.validade?'<span style="color:#1a7f37;font-size:11px">(detectada pela IA)</span>':''}</label><input type="date" id="validade-${i}" value="${p.validade||''}">${!p.validade?'<div style="font-size:11px;color:#e65100;margin-top:2px">⚠️ Sem data detectada — sem validade = expira hoje às 23:59</div>':''}
     </div>`).join('');
 }
 
 async function publicarPromocoes(){
   const sel=document.getElementById('sel-mercado');
   const mercado=sel.value==='novo'?(document.getElementById('novo-mercado-nome').value||'Novo mercado'):sel.options[sel.selectedIndex].text;
-  const produtos=produtosIA.map((p,i)=>({nome:document.getElementById(`nome-${i}`).value,marca:p.marca,preco:parseFloat(document.getElementById(`preco-${i}`).value),unidade:p.unidade,validade:document.getElementById(`validade-${i}`).value||null}));
+  const produtos=produtosIA.map((p,i)=>({nome:document.getElementById(`nome-${i}`).value,nome_generico:p.nome_generico||document.getElementById(`nome-${i}`).value,marca:p.marca,preco:parseFloat(document.getElementById(`preco-${i}`).value),unidade:p.unidade,quantidade:p.quantidade||null,categoria:p.categoria||'Outros',validade:document.getElementById(`validade-${i}`).value||p.validade||null}));
   try{
     mostrarStatus('info','⏳ Salvando no banco de dados...','status-upload');
     const res=await fetch(`${API}/publicar`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({produtos,mercado})});
