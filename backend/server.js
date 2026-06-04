@@ -86,7 +86,7 @@ app.post('/upload-pdf-admin',upload.single('pdf'),async(req,res)=>{
     const prompt=`Extraia TODOS os produtos com precos deste encarte de supermercado. Data de hoje: ${hoje}. Regras: 1) nome_generico deve ser ESPECIFICO - ex: "Leite Integral", "Leite Condensado", "Creme de Leite", "Feijao Carioca", "Feijao Preto" - NUNCA use nomes genericos demais. 2) Sempre extraia quantidade e unidade. 3) Categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. 4) Se houver data de vigencia no encarte extraia no campo validade formato YYYY-MM-DD, senao null. Retorne APENAS JSON valido: {"produtos":[{"nome":"nome completo com marca e quantidade","nome_generico":"tipo especifico sem marca","marca":"marca","preco":0.00,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","validade":"YYYY-MM-DD ou null","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}`;
     const resp=await anthropic.messages.create({
       model:'claude-sonnet-4-6',
-      max_tokens:4000,
+      max_tokens:8192,
       messages:[{role:'user',content:[
         {type:'document',source:{type:'base64',media_type:'application/pdf',data:req.file.buffer.toString('base64')}},
         {type:'text',text:prompt}
