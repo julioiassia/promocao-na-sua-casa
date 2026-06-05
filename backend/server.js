@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname,'..')));
 app.get('/',(req,res)=>res.sendFile(path.join(__dirname,'..','usuario.html')));
 app.get('/admin',(req,res)=>res.sendFile(path.join(__dirname,'..','admin.html')));
-app.get('/versao',(req,res)=>res.json({versao:'2026-06-04-v6',pdf:'sonnet-compact'}));
+app.get('/versao',(req,res)=>res.json({versao:'2026-06-05-v7',pdf:'sonnet-compact'}));
 app.use((req,res,next)=>{res.header('Access-Control-Allow-Origin','*');res.header('Access-Control-Allow-Headers','*');next();});
 
 const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:30*1024*1024}});
@@ -58,7 +58,6 @@ function parseJSONSeguro(texto){
     }
   }catch(e3){}
   return{produtos:[]};
-}
 }
 
 async function extrairComIA(anthropic,conteudo,tipo){
