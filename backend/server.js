@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname,'..')));
 app.get('/',(req,res)=>res.sendFile(path.join(__dirname,'..','usuario.html')));
 app.get('/admin',(req,res)=>res.sendFile(path.join(__dirname,'..','admin.html')));
-app.get('/versao',(req,res)=>res.json({versao:'2026-06-04-v5',pdf:'sonnet-4-6'}));
+app.get('/versao',(req,res)=>res.json({versao:'2026-06-04-v6',pdf:'sonnet-compact'}));
 app.use((req,res,next)=>{res.header('Access-Control-Allow-Origin','*');res.header('Access-Control-Allow-Headers','*');next();});
 
 const upload=multer({storage:multer.memoryStorage(),limits:{fileSize:30*1024*1024}});
@@ -108,7 +108,8 @@ app.post('/upload-pdf-admin',upload.single('pdf'),async(req,res)=>{
     if(hashes.has(hash))return res.status(400).json({erro:'PDF ja enviado'});
     const anthropic=new Anthropic({apiKey:process.env.ANTHROPIC_API_KEY});
     const hoje=new Date().toISOString().split('T')[0];
-    const prompt=`Extraia TODOS os produtos com precos deste encarte de supermercado. Data de hoje: ${hoje}. Regras: 1) nome_generico deve ser ESPECIFICO - ex: "Leite Integral", "Leite Condensado", "Creme de Leite", "Feijao Carioca", "Feijao Preto" - NUNCA use nomes genericos demais. 2) Sempre extraia quantidade e unidade. 3) Categoria entre: Graos e Cereais, Carnes e Aves, Laticinios, Padaria, Hortifruti, Bebidas, Limpeza, Higiene Pessoal, Mercearia, Frios e Embutidos, Congelados, Outros. 4) Se houver data de vigencia no encarte extraia no campo validade formato YYYY-MM-DD, senao null. Retorne APENAS JSON valido: {"produtos":[{"nome":"nome completo com marca e quantidade","nome_generico":"tipo especifico sem marca","marca":"marca","preco":0.00,"quantidade":1.0,"unidade":"kg ou g ou L ou ml ou un","categoria":"categoria","validade":"YYYY-MM-DD ou null","confianca":"alta"}]}. Se nao encontrar: {"produtos":[]}`;
+    // Prompt compacto: sem indentacao, sem campo confianca, para caber em menos tokens
+    const prompt=`Liste todos os produtos com preco deste encarte. Data: ${hoje}. Retorne JSON compacto numa unica linha, sem espacos extras: {"produtos":[{"n":"nome+marca+qtd","g":"tipo especifico sem marca ex:Leite Integral","m":"marca","p":0.00,"q":1.0,"u":"kg/g/L/ml/un","c":"categoria","v":"YYYY-MM-DD ou null"}]}. Categorias: Graos e Cereais,Carnes e Aves,Laticinios,Padaria,Hortifruti,Bebidas,Limpeza,Higiene Pessoal,Mercearia,Frios e Embutidos,Congelados,Outros. Validade: se o encarte tiver data de vigencia coloque em v, senao null. Responda APENAS o JSON, sem texto adicional.`;
     const resp=await anthropic.messages.create({
       model:'claude-sonnet-4-6',
       max_tokens:8192,
@@ -118,8 +119,22 @@ app.post('/upload-pdf-admin',upload.single('pdf'),async(req,res)=>{
       ]}]
     });
     const rawText=resp.content[0].text;
-    const dados=parseJSONSeguro(rawText);
-    if(!dados.produtos||!dados.produtos.length)return res.status(422).json({erro:'IA nao encontrou produtos. Detalhe: '+rawText.substring(0,200)});
+    let dados=parseJSONSeguro(rawText);
+    // Normaliza campos curtos (n/g/m/p/q/u/c/v) para campos completos
+    if(dados.produtos&&dados.produtos.length){
+      dados.produtos=dados.produtos.map(p=>({
+        nome:p.nome||p.n||'',
+        nome_generico:p.nome_generico||p.g||p.nome||p.n||'',
+        marca:p.marca||p.m||'',
+        preco:p.preco||p.p||0,
+        quantidade:p.quantidade||p.q||null,
+        unidade:p.unidade||p.u||'un',
+        categoria:p.categoria||p.c||'Outros',
+        validade:p.validade||p.v||null,
+        confianca:'alta'
+      }));
+    }
+    if(!dados.produtos||!dados.produtos.length)return res.status(422).json({erro:'IA nao encontrou produtos. Detalhe: '+rawText.substring(0,300)});
     hashes.add(hash);
     res.json({sucesso:true,produtos:dados.produtos,paginas:1});
   }catch(e){console.error('ERRO PDF:',e);res.status(500).json({erro:e.message});}
