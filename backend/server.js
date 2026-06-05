@@ -29,11 +29,36 @@ function calcularPrecoPorUnidade(preco,quantidade,unidade){
 }
 
 function parseJSONSeguro(texto){
-  const t=texto.trim().replace(/```json|```/g,'').trim();
-  try{return JSON.parse(t);}catch(e){
-    try{const i=t.indexOf('{');const f=t.lastIndexOf('}');if(i!==-1&&f!==-1)return JSON.parse(t.substring(i,f+1));}catch(e2){}
-    return{produtos:[]};
-  }
+  // Remove markdown code blocks
+  let t=texto.trim().replace(/```json\s*/g,'').replace(/```\s*/g,'').trim();
+  // Tenta parse direto
+  try{return JSON.parse(t);}catch(e){}
+  // JSON truncado: recupera todos os objetos completos
+  try{
+    const start=t.indexOf('[');
+    if(start!==-1){
+      // Acha o ultimo objeto completo (termina com },  ou  }  seguido de whitespace/])
+      const matches=[...t.matchAll(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)?\}/g)];
+      if(matches.length){
+        const produtos=[];
+        for(const m of matches){
+          try{const p=JSON.parse(m[0]);if(p.nome&&p.preco)produtos.push(p);}catch(ex){}
+        }
+        if(produtos.length)return{produtos};
+      }
+    }
+  }catch(e2){}
+  // Ultimo recurso: tenta fechar o array/objeto truncado
+  try{
+    const i=t.indexOf('{');
+    const lastComma=t.lastIndexOf('},');
+    if(i!==-1&&lastComma>i){
+      const fixed=t.substring(i,lastComma+1)+']}';
+      return JSON.parse(fixed);
+    }
+  }catch(e3){}
+  return{produtos:[]};
+}
 }
 
 async function extrairComIA(anthropic,conteudo,tipo){
